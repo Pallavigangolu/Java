@@ -1,0 +1,54 @@
+interface A 
+{ 
+ 	int X = 10;  	void methA(); 
+} 
+interface B extends A 
+{ 
+ 	int Y = 20;  	void methB(); 
+} 
+interface C extends B 
+{ 
+ 	int Z = 30;  	void methC(); 
+} class D 
+{ 
+ 	int P = 50;  	void methD() 
+ 	{ 
+ 	 	System.out.println("I am from class D : " + P); 
+ 	} 
+} 
+class E extends D implements C 
+{ 
+ 	int Q = 100;  	void methE() 
+ 	{ 
+ 	 	System.out.println("I am from class E : " + Q); 
+ 	} 
+ 	void methD() 
+ 	{ 
+ 	 	System.out.println("I am from class D : " + P); 
+ 	} 
+ 	public void methC() 
+ 	{ 
+ 	 	System.out.println("I am declared in interface C but defined in class E : " + Z); 
+ 	} 
+ 	public void methB() 
+ 	{ 
+ 	 	System.out.println("I am declared in interface C but defined in class E : " + Y); 
+ 	} 
+ 	public void methA() 
+ 	{ 
+ 	 	System.out.println("I am declared in interface C but defined in class E : " + X); 
+ 	} 
+ 
+ } 
+class InterfaceDemo 
+{ 
+ 	public static void main(String[] args) 
+ 	{ 
+ 	 	E e = new E(); 
+ 	 	e.methE(); 
+ 	 	e.methD(); 
+ 	 	e.methC(); 
+ 	 	e.methB(); 
+ 	 	e.methA(); 
+ 	} 
+} 
