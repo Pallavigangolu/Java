@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Solution {
+    
+    // Helper function: substrings with at most k distinct characters
+    private static long atMostK(String s, int k) {
+        if (k == 0) return 0;
+
+        int n = s.length();
+        int left = 0;
+        long count = 0;
+        int distinct = 0;
+
+        int[] freq = new int[26];
+
+        for (int right = 0; right < n; right++) {
+            if (freq[s.charAt(right) - 'a'] == 0) {
+                distinct++;
+            }
+            freq[s.charAt(right) - 'a']++;
+
+            while (distinct > k) {
+                freq[s.charAt(left) - 'a']--;
+                if (freq[s.charAt(left) - 'a'] == 0) {
+                    distinct--;
+                }
+                left++;
+            }
+
+            count += (right - left + 1);
+        }
+
+        return count;
+    }
+
+    // Main function: exactly k distinct characters
+    public static long substrCount(String s, int k) {
+        return atMostK(s, k) - atMostK(s, k - 1);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        String s = sc.next();
+        int k = sc.nextInt();
+
+        System.out.println(substrCount(s, k));
+    }
+}
