@@ -1,0 +1,56 @@
+class Solution {
+    public boolean isWordExist(char[][] mat, String word) {
+        int n = mat.length;
+        int m = mat[0].length;
+        
+        // Loop through every cell to find the starting character
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                // If the first character matches, start DFS
+                if (mat[i][j] == word.charAt(0)) {
+                    if (dfs(mat, word, i, j, 0)) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean dfs(char[][] mat, String word, int r, int c, int index) {
+        // Base Condition: If index reaches word length, we found the word
+        // (Note: In this implementation, we check match before recurse, 
+        // so if we reached the last index successfully, we are good)
+        if (index == word.length() - 1) {
+            return true;
+        }
+        
+        // Temporarily mark the current cell as visited
+        char temp = mat[r][c];
+        mat[r][c] = '#';
+        
+        // Define directions: Up, Down, Left, Right
+        int[] dr = {-1, 1, 0, 0};
+        int[] dc = {0, 0, -1, 1};
+        
+        for (int k = 0; k < 4; k++) {
+            int newR = r + dr[k];
+            int newC = c + dc[k];
+            
+            // Check boundaries, if character matches next char in word, and not visited
+            if (newR >= 0 && newR < mat.length && 
+                newC >= 0 && newC < mat[0].length && 
+                mat[newR][newC] == word.charAt(index + 1)) {
+                
+                if (dfs(mat, word, newR, newC, index + 1)) {
+                    return true;
+                }
+            }
+        }
+        
+        // Backtrack: Unmark the current cell so other paths can use it
+        mat[r][c] = temp;
+        
+        return false;
+    }
+}
